@@ -17,22 +17,23 @@ data = ""
 url = ["Status Anzeigen", "Space oeffnen", "Space schliessen"]
 with open("token.conf", "r") as token_raw:
     space, token, url_tmp = "","",""
-    for line in token_raw.lines():
-        if line[0] = '#':
+    for line in token_raw.readlines():
+        if line[0] == '#':
             pass # Ist ein Kommentar
         else:
             line = line.replace('\n', '')
             key, value = line.split('=')
+            print(key, value)
             if key == 'space':
-                space = key
+                space = value
             elif key == 'token':
-                token = key
+                token = value
             elif key == 'url':
-                url_tmp = key
+                url_tmp = value
             else:
                 pass
-    url = [url_tmp + 'space=' + space + 'state=show', url_tmp + 'space=' + space + 'token=' + token + 'state=open', url_tmp + 'space=' + space + 'token=' + token + 'state=closed']
- 
+    url = [url_tmp + 'space=' + space + '&state=show', url_tmp + 'space=' + space + '&token=' + token + '&state=open', url_tmp + 'space=' + space + '&token=' + token + '&state=closed']
+    print(url) 
 jsonurl = urlopen(url[0])
 
 def rec_UDP():
