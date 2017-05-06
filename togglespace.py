@@ -14,33 +14,39 @@ GPIO.setup(8, GPIO.OUT)
 
 data = ""
 
-url = ["Status Anzeigen", "Space oeffnen", "Space schliessen"]
-with open("token.conf", "r") as token_raw:
-    space, token, url_tmp = "","",""
-    for line in token_raw.readlines():
-        if line[0] == '#':
-            pass # Ist ein Kommentar
-        else:
-            line = line.replace('\n', '')
-            key, value = line.split('=')
-            if key == 'space':
-                space = value
-            elif key == 'token':
-                token = value
-            elif key == 'url':
-                url_tmp = value
-            else:
-                pass
-    url = [url_tmp + 'space=' + space + '&state=show', url_tmp + 'space=' + space + '&token=' + token + '&state=open', url_tmp + 'space=' + space + '&token=' + token + '&state=closed']
+url, adress = read_config()
+
 jsonurl = urlopen(url[0])
 
+def read_config():
+    with open("token.conf", "r") as token_raw:
+        space, token, url_tmp, adress = "", "", "", ""
+        for line in token_raw.readlines():
+            if line[0] == '#':
+                pass # Ist ein Kommentar
+            else:
+                line = line.replace('\n', '')
+                key, value = line.split('=')
+                if key == 'space':
+                    space = value
+                elif key == 'token':
+                    token = value
+                elif key == 'url':
+                    url_tmp = value
+                elif key == 'adress':
+                    adress == value
+                else:
+                    pass
+        url = [url_tmp + 'space=' + space + '&state=show', url_tmp + 'space=' + space + '&token=' + token + '&state=open', url_tmp + 'space=' + space + '&token=' + token + '&state=closed']
+        return (url, adress)
+
 def rec_UDP():
-    global data
+    global data, adress
     while True:
         # UDP commands for listening
         UDP_PORT = 5000
 #        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-#        sock.bind(('94.45.232.224', UDP_PORT))
+#        sock.bind((adress, UDP_PORT))
 #        data, addr = sock.recvfrom(1024)
 #        print("received message:", data)
 
