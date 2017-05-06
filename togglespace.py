@@ -14,7 +14,25 @@ GPIO.setup(8, GPIO.OUT)
 
 data = ""
 
-url = ["https://bodensee.space/cgi-bin/togglestate?space=see-base&state=show", "(token url zum öffnen einfügen)", "token url zum schließen einfügen", "syntax unbekannt und nicht Dokumentiert"]
+url = ["Status Anzeigen", "Space oeffnen", "Space schliessen"]
+with open("token.conf", "r") as token_raw:
+    space, token, url_tmp = "","",""
+    for line in token_raw.lines():
+        if line[0] = '#':
+            pass # Ist ein Kommentar
+        else:
+            line = line.replace('\n', '')
+            key, value = line.split('=')
+            if key == 'space':
+                space = key
+            elif key == 'token':
+                token = key
+            elif key == 'url':
+                url_tmp = key
+            else:
+                pass
+    url = [url_tmp + 'space=' + space + 'state=show', url_tmp + 'space=' + space + 'token=' + token + 'state=open', url_tmp + 'space=' + space + 'token=' + token + 'state=closed']
+ 
 jsonurl = urlopen(url[0])
 
 def rec_UDP():
