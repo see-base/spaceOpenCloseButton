@@ -69,16 +69,17 @@ def togglespace():
 		GPIO.output(7, 1)
 		GPIO.output(11, 0)
 
-if do_server_query(0) == "open":
-        print("status from server is open")
-        GPIO.output(11, 0)
-        GPIO.output(7, 1)
-        currentstatus = "open"
-elif do_server_query(0) == "closed":
-        print("status from server is closed")
-        GPIO.output(7, 0)
-        GPIO.output(11, 1)
-        currentstatus = "closed"
+def set_status(oc=do_server_query(0)): #oc = open/closed-status
+	print("status from server is {}".format(oc))
+	if oc == "open":
+		GPIO.output(11, 0)
+		GPIO.output(7, 1)
+	elif oc == "closed:
+		GPIO.output(7, 0)
+		GPIO.output(11, 1)
+	return oc
+
+currentstatus = set_status()
 
 try:
 	listen_UDP = threading.Thread(target=rec_UDP)
