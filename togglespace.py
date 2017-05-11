@@ -74,7 +74,7 @@ def set_status(oc=do_server_query(0)): #oc = open/closed-status
 	if oc == "open":
 		GPIO.output(11, 0)
 		GPIO.output(7, 1)
-	elif oc == "closed:
+	elif oc == "closed":
 		GPIO.output(7, 0)
 		GPIO.output(11, 1)
 	return oc
